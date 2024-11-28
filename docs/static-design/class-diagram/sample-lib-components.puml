@@ -1,0 +1,15 @@
+@startuml C++ Library Static Design 
+
+
+package "C++ Library" {
+    class BaseClass
+}
+
+package "C++ External Library" {
+    class DeriveClass
+}
+
+BaseClass --> DeriveClass : use
+
+
+@enduml

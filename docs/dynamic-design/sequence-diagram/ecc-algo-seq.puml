@@ -1,0 +1,33 @@
+@startuml C++ LIBRARY SEQUENCE DIAGRAM
+
+actor User
+participant InterfaceClass
+participant BaseClass
+participant DeriveClass
+
+' User -> EscryptCryptoAdapter: input parentKey
+' activate EscryptCryptoAdapter
+' EscryptCryptoAdapter -> EscryptECC: deriveKey()
+' activate EscryptECC
+' EscryptECC -> EscryptECC: generateKey()
+' EscryptECC -> EscryptECC: mulWithNumber()
+' EscryptECC -> EscryptECC: addWithPoint()
+' EscryptECC -> EscryptCryptoAdapter: deriveKey()
+' deactivate EscryptECC
+' EscryptCryptoAdapter -> User : Derived Key or errorCode
+' deactivate EscryptCryptoAdapter
+
+User -> InterfaceClass: input inputValue
+activate InterfaceClass
+InterfaceClass -> BaseClass: doStuff()
+activate BaseClass
+BaseClass -> DeriveClass : getDoStuff()
+activate DeriveClass
+DeriveClass -> DeriveClass: implementDoStuff()
+DeriveClass -> DeriveClass: setDoStuff()
+
+deactivate DeriveClass
+deactivate BaseClass
+deactivate InterfaceClass
+
+@enduml
