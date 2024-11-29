@@ -1,7 +1,7 @@
-# Sử dụng image C++ cơ bản với Ubuntu
+# Using ubuntu 22.04 image 
 FROM ubuntu:22.04
 
-# Cài đặt các công cụ cần thiết
+# Setup some necessary tools 
 RUN apt-get update && apt-get install -y \
     g++ \
     cmake \
@@ -13,24 +13,24 @@ RUN apt-get update && apt-get install -y \
     pkg-config \
     && rm -rf /var/lib/apt/lists/*
 
-# Cài đặt vcpkg
+# Setup vcpkg
 RUN git clone https://github.com/microsoft/vcpkg.git /vcpkg
 WORKDIR /vcpkg
 RUN ./bootstrap-vcpkg.sh
 
-# Thiết lập môi trường cho vcpkg
+# Config the environment for vcpkg
 ENV VCPKG_ROOT=/vcpkg
 ENV PATH=$VCPKG_ROOT:/vcpkg/installed/x64-linux/bin:$PATH
 
-# Cài đặt Google Test qua vcpkg
+# Setup GTest by using vcpkg
 RUN /vcpkg/vcpkg install gtest
 
-# Sao chép mã nguồn vào container
+# Copy source code and paste them into containers
 WORKDIR /app
 COPY . /app
 
 # Build project 
 RUN mkdir build && cd build && cmake .. && cmake --build .
 
-# Chạy ứng dụng
+# Run application
 CMD ["/app/build/tests/unit-test/unit-test"]
